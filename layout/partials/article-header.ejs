@@ -10,7 +10,7 @@
     </time>
     <% } %>
     <ul>
-    <% (page.tags || []).forEach(function (tag) { %>
+    <% (page.tags || []).forEach(tag => { %>
       <li><a href="<%= url_for(tag.path) %>"><%= tag.name %></a></li>
     <% }) %>
     </ul>

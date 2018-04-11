@@ -68,7 +68,7 @@ fetch('https://api.github.com/repos/fiatjaf/classless/contents/themes')
   </header>
   <nav>
     <ul>
-      <% theme.nav.forEach(function (item) { %>
+      <% theme.nav.forEach(item => { %>
       <li>
         <a href="<%= item.url %>"><%= item.label %></a>
       </li>
@@ -79,9 +79,23 @@ fetch('https://api.github.com/repos/fiatjaf/classless/contents/themes')
     <%- body %>
   </main>
   <aside>
-    <%- partial(theme.aside) %>
+    <% aside = site.pages
+        .filter(p => p.title == 'aside' || p.path.split('.')[0] == 'aside')
+        .map(p => p.content)[0]
+    if (aside) { %>
+      <%- aside %>
+    <% } else { %>
+      <%- partial('partials/aside.html') %>
+    <% } %>
   </aside>
   <footer role="contentinfo">
-    <%- partial(theme.footer) %>
+    <% footer = site.pages
+        .filter(p => p.title == 'footer' || p.path.split('.')[0] == 'footer')
+        .map(p => p.content)[0]
+    if (footer) { %>
+      <%- footer %>
+    <% } else { %>
+      <%- partial('partials/footer.html') %>
+    <% } %>
   </footer>
 </body>
