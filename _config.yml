@@ -1,0 +1,13 @@
+theme: 
+commit_sha: 
+theme_url: 
+footer: partials/footer.html
+aside: partials/aside.html
+nav:
+  - label: Home
+    url: /
+  - label: Archives
+    url: /archives/
+date_format: 'MMMM Do YYYY'
+show_excerpts: true
+read_more: 'Read more...'

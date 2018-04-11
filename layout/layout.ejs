@@ -1,0 +1,87 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="<%= config.description %>">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+<% if (theme.commit_sha && theme.theme) { %>
+  <link rel="stylesheet" href="https://cdn.rawgit.com/fiatjaf/classless/<%= theme.commit_sha %>/themes/<%= theme.theme %>/theme.css">
+<% } else  if (theme.theme_url) { %>
+  <link rel="stylesheet" href="<%= theme.theme_url %>">
+<% } else { %>
+  <link rel="stylesheet" id="chosen-theme" href="https://rawgit.com/fiatjaf/classless/master/themes/plain/theme.css">
+  <script>
+let link = document.getElementById('chosen-theme')
+let widget = document.createElement('div')
+widget.style.position = 'absolute'
+widget.style.right = '5px'
+widget.style.top = '2px'
+widget.style.background = 'beige'
+widget.style.color = '#444'
+widget.style.zIndex = 99
+widget.style.padding = '4px 8px'
+widget.innerHTML = `
+<label>
+  <p>No theme was set on <code>theme_config</code>.<br>
+     Choose a theme from the list to experiment with it:</p>
+  <select></select>
+</label>
+`
+fetch('https://api.github.com/repos/fiatjaf/classless/contents/themes')
+  .then(r => r.json())
+  .then(files => {
+    document.body.appendChild(widget)
+    let select = document.querySelector('select')
+    files
+      .filter(f => f.type === 'dir')
+      .forEach(f => {
+        let option = document.createElement('option')
+        option.value = f.name
+        option.innerHTML = f.name
+        select.appendChild(option)
+      })
+    let options = Array.from(select.querySelectorAll('option'))
+    let chosen = options[parseInt(Math.random() * options.length)]
+    chosen.selected = true
+    link.href = link.href.replace(/themes\/[^\/]+/, `themes/${chosen.value}`)
+    select.addEventListener('change', e => {
+      let chosen = e.target.value
+      link.href = link.href.replace(/themes\/[^\/]+/, `themes/${chosen}`)
+    })
+  })
+  .catch(console.log)
+  </script>
+<% } %>
+</head>
+
+<body>
+  <header role="banner">
+    <a href="<%= url_for('/') %>">
+      <img src="https://picsum.photos/640/480">
+    </a>
+    <h1>
+      <a href="<%= url_for('/') %>"><%= config.title %></a>
+    </h1>
+    <aside>
+      <p><%= config.description %></p>
+    </aside>
+  </header>
+  <nav>
+    <ul>
+      <% theme.nav.forEach(function (item) { %>
+      <li>
+        <a href="<%= item.url %>"><%= item.label %></a>
+      </li>
+      <% }) %>
+    </ul>
+  </nav>
+  <main>
+    <%- body %>
+  </main>
+  <aside>
+    <%- partial(theme.aside) %>
+  </aside>
+  <footer role="contentinfo">
+    <%- partial(theme.footer) %>
+  </footer>
+</body>
