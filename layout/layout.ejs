@@ -1,9 +1,9 @@
 <!doctype html>
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="<%= config.description %>">
+  <meta name="description" content="<% if (page.excerpt || page.content) { %><%= (page.excerpt || page.content).slice(0, 200) %><% } else {%><%= config.description %><% } %>">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
-  <title></title>
+  <title><% if (page.title) { %><%= page.title %> | <% } %><%= config.title %></title>
 <% if (theme.commit_sha && theme.theme) { %>
   <link rel="stylesheet" href="https://cdn.rawgit.com/fiatjaf/classless/<%= theme.commit_sha %>/themes/<%= theme.theme %>/theme.css">
 <% } else  if (theme.theme_url) { %>
