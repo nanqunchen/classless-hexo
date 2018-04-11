@@ -79,23 +79,27 @@ fetch('https://api.github.com/repos/fiatjaf/classless/contents/themes')
     <%- body %>
   </main>
   <aside>
-    <% aside = site.pages
+    <%- fragment_cache('aside', () => {
+      let aside = site.pages
         .filter(p => p.title == 'aside' || p.path.split('.')[0] == 'aside')
         .map(p => p.content)[0]
-    if (aside) { %>
-      <%- aside %>
-    <% } else { %>
-      <%- partial('partials/aside.html') %>
-    <% } %>
+      if (aside) {
+        return aside
+      } else {
+        return partial('partials/aside.html')
+      }
+    }) %>
   </aside>
   <footer role="contentinfo">
-    <% footer = site.pages
+    <%- fragment_cache('footer', () => {
+      let footer = site.pages
         .filter(p => p.title == 'footer' || p.path.split('.')[0] == 'footer')
         .map(p => p.content)[0]
-    if (footer) { %>
-      <%- footer %>
-    <% } else { %>
-      <%- partial('partials/footer.html') %>
-    <% } %>
+      if (footer) {
+        return footer
+      } else {
+        return partial('partials/footer.html')
+      }
+    }) %>
   </footer>
 </body>
