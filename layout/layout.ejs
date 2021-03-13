@@ -58,7 +58,7 @@ fetch('https://api.github.com/repos/fiatjaf/classless/contents/themes')
   <header role="banner">
       <a href="<%= url_for('/') %>">
         <% if (theme.head_banner_image) { %>
-          <img src="<%= theme.head_banner_image_url %>">
+          <img src="<%= theme.head_banner_image %>">
         <% } else { %>
           <img src="https://picsum.photos/640/480">
         <% } %>
